@@ -12,6 +12,8 @@ dependencies {
     because "We need the @InternalUseOnly annnotation."
   }
 
+  implementation project(":grpc-java:grpc-compression")
+
   api platform(libs.grpc.bom)
   api libs.grpc.api
   implementation libs.grpc.core

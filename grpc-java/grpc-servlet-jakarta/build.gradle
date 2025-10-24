@@ -8,6 +8,8 @@ dependencies {
     implementation libs.grpc.core
     compileOnly libs.jakarata.servlet.api
 
+    implementation project(":grpc-java:grpc-compression")
+
     implementation libs.guava
 }
 

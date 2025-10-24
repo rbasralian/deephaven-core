@@ -1,0 +1,22 @@
+plugins {
+    id 'java-library'
+    id 'io.deephaven.project.register'
+}
+description = 'Utility project to support additional compression codecs'
+
+dependencies {
+    implementation platform(libs.grpc.bom)
+    implementation libs.grpc.core
+
+//    implementation 'org.lz4:lz4-java:1.8.0'
+    implementation("com.github.luben:zstd-jni:1.5.7-4")
+    implementation 'org.apache.commons:commons-compress:1.28.0'
+
+    implementation project(':Configuration')
+}
+
+spotless {
+    java {
+//        targetExclude '**/*'
+    }
+}

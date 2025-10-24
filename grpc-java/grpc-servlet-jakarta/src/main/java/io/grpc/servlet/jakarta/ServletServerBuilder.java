@@ -15,18 +15,9 @@ package io.grpc.servlet.jakarta;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.util.concurrent.ListenableFuture;
-import io.grpc.Attributes;
-import io.grpc.ExperimentalApi;
-import io.grpc.ForwardingServerBuilder;
-import io.grpc.Internal;
+import io.deephaven.grpc.compression.DhCodecRegistry;
+import io.grpc.*;
 import io.grpc.InternalChannelz.SocketStats;
-import io.grpc.InternalInstrumented;
-import io.grpc.InternalLogId;
-import io.grpc.Metadata;
-import io.grpc.Server;
-import io.grpc.ServerBuilder;
-import io.grpc.ServerStreamTracer;
-import io.grpc.Status;
 import io.grpc.internal.GrpcUtil;
 import io.grpc.internal.InternalServer;
 import io.grpc.internal.ServerImplBuilder;
@@ -73,6 +64,9 @@ public final class ServletServerBuilder extends ForwardingServerBuilder<ServletS
 
     public ServletServerBuilder() {
         serverImplBuilder = new ServerImplBuilder(this::buildTransportServers);
+
+        serverImplBuilder.compressorRegistry(DhCodecRegistry.COMPRESSOR_REGISTRY);
+        serverImplBuilder.decompressorRegistry(DhCodecRegistry.DECOMPRESSOR_REGISTRY);
     }
 
     /**
@@ -195,7 +189,8 @@ public final class ServletServerBuilder extends ForwardingServerBuilder<ServletS
 
         ServerListener serverListener;
 
-        InternalServerImpl() {}
+        InternalServerImpl() {
+        }
 
         @Override
         public void start(ServerListener listener) {

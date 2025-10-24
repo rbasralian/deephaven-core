@@ -9,6 +9,7 @@ import com.google.protobuf.ByteString;
 import com.google.rpc.Code;
 import io.deephaven.auth.AuthContext;
 import io.deephaven.auth.AuthenticationException;
+import io.deephaven.configuration.Configuration;
 import io.deephaven.csv.util.MutableObject;
 import io.deephaven.engine.liveness.LivenessScopeStack;
 import io.deephaven.engine.table.impl.perf.QueryPerformanceNugget;
@@ -63,6 +64,9 @@ public class SessionServiceGrpcImpl extends SessionServiceGrpc.SessionServiceImp
     private static final Context.Key<InterceptedCall<?, ?>> SESSION_CALL_KEY = Context.key(SERVER_CALL_ID);
 
     private static final Logger log = LoggerFactory.getLogger(SessionServiceGrpcImpl.class);
+
+    private static final String COMPRESSION_TYPE =
+            Configuration.getInstance().getStringWithDefault("SessionServiceGrpcImpl.compressionType", "");
 
     private final SessionService service;
     private final TicketRouter ticketRouter;
@@ -349,6 +353,13 @@ public class SessionServiceGrpcImpl extends SessionServiceGrpc.SessionServiceImp
         public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(final ServerCall<ReqT, RespT> call,
                 final Metadata metadata,
                 final ServerCallHandler<ReqT, RespT> serverCallHandler) {
+
+            // TODO: this should be configurable more granularly (e.g. by call)
+            if (COMPRESSION_TYPE != null && !COMPRESSION_TYPE.isEmpty()) {
+                call.setCompression(COMPRESSION_TYPE);
+                call.setMessageCompression(true);
+            }
+
             SessionState session = null;
 
             // Lookup the session using Flight Auth 1.0 token.
