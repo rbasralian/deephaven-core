@@ -19,6 +19,7 @@ import io.deephaven.qst.type.IntType;
 import io.deephaven.qst.type.LocalDateType;
 import io.deephaven.qst.type.LocalTimeType;
 import io.deephaven.qst.type.LongType;
+import io.deephaven.qst.type.PeriodType;
 import io.deephaven.qst.type.PrimitiveType;
 import io.deephaven.qst.type.ShortType;
 import io.deephaven.qst.type.StringType;
@@ -120,6 +121,11 @@ final class ObjectProcessorTypes {
 
         @Override
         public ChunkType visit(DurationType durationType) {
+            return ChunkType.Object;
+        }
+
+        @Override
+        public ChunkType visit(PeriodType periodType) {
             return ChunkType.Object;
         }
 

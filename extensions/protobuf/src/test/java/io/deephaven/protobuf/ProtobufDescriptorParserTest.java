@@ -460,6 +460,8 @@ public class ProtobufDescriptorParserTest {
                 Duration.ofSeconds(4200, 4300)));
     }
 
+    // TODO: add Period??
+
     @Test
     void enum_() {
         checkKey(AnEnum.getDescriptor(), List.of("fbb"), Type.ofCustom(EnumValueDescriptor.class), Map.of(
@@ -1026,6 +1028,8 @@ public class ProtobufDescriptorParserTest {
                         Duration.ofSeconds(1, 2),
                         Duration.ofSeconds(3, 4)}));
     }
+
+    // TODO: add Period??
 
     @Test
     void nested() {

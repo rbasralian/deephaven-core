@@ -286,6 +286,12 @@ public final class TypeInference {
         }
 
         @Override
+        public org.apache.iceberg.types.Type visit(PeriodType periodType) {
+            // Iceberg does not have a native Period type
+            return null;
+        }
+
+        @Override
         public org.apache.iceberg.types.Type visit(ArrayType<?, ?> arrayType) {
             final org.apache.iceberg.types.Type elementType = arrayType.componentType().walk(this);
             if (elementType == null) {

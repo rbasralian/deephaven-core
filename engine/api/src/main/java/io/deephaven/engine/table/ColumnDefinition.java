@@ -24,6 +24,7 @@ import io.deephaven.qst.type.LocalDateType;
 import io.deephaven.qst.type.LocalTimeType;
 import io.deephaven.qst.type.LongType;
 import io.deephaven.qst.type.NativeArrayType;
+import io.deephaven.qst.type.PeriodType;
 import io.deephaven.qst.type.PrimitiveType;
 import io.deephaven.qst.type.PrimitiveVectorType;
 import io.deephaven.qst.type.ShortType;
@@ -45,6 +46,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Period;
 import java.util.List;
 import java.util.Objects;
 
@@ -118,6 +120,10 @@ public class ColumnDefinition<TYPE> implements LogOutputAppendable {
 
     public static ColumnDefinition<Duration> ofDuration(@NotNull final String name) {
         return new ColumnDefinition<>(name, Duration.class);
+    }
+
+    public static ColumnDefinition<Period> ofPeriod(@NotNull final String name) {
+        return new ColumnDefinition<>(name, Period.class);
     }
 
     public static ColumnDefinition<?> of(String name, Type<?> type) {
@@ -343,6 +349,11 @@ public class ColumnDefinition<TYPE> implements LogOutputAppendable {
         @Override
         public ColumnDefinition<?> visit(DurationType durationType) {
             return ofDuration(name);
+        }
+
+        @Override
+        public ColumnDefinition<?> visit(PeriodType periodType) {
+            return ofPeriod(name);
         }
 
         @Override

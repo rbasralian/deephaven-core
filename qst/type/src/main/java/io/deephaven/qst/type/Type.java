@@ -187,6 +187,15 @@ public interface Type<T> {
     }
 
     /**
+     * Creates the period type.
+     *
+     * @return the period type
+     */
+    static PeriodType periodType() {
+        return PeriodType.of();
+    }
+
+    /**
      * Creates a custom type. Equivalent to {@code CustomType.of(clazz)}.
      *
      * @param clazz the class

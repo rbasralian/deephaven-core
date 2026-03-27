@@ -19,6 +19,7 @@ import io.deephaven.qst.type.GenericType;
 import io.deephaven.qst.type.InstantType;
 import io.deephaven.qst.type.LocalDateType;
 import io.deephaven.qst.type.LocalTimeType;
+import io.deephaven.qst.type.PeriodType;
 import io.deephaven.qst.type.StringType;
 import io.deephaven.time.DateTimeUtils;
 import io.deephaven.util.BooleanUtils;
@@ -162,6 +163,11 @@ public class ToChunkTypeTransform {
 
         @Override
         public TypedFunction<T> visit(DurationType durationType) {
+            return f;
+        }
+
+        @Override
+        public TypedFunction<T> visit(PeriodType periodType) {
             return f;
         }
 
